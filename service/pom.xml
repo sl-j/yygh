@@ -13,19 +13,25 @@
     <packaging>pom</packaging>
     <modules>
         <module>server_user</module>
+        <module>service_hosp</module>
     </modules>
 
     <dependencies>
-<!--        <dependency>-->
-<!--            <groupId>com.lei</groupId>-->
-<!--            <artifactId>model</artifactId>-->
-<!--            <version>0.0.1-SNAPSHOT</version>-->
-<!--        </dependency>-->
-<!--        <dependency>-->
-<!--            <groupId>com.lei</groupId>-->
-<!--            <artifactId>service_utils</artifactId>-->
-<!--            <version>0.0.1-SNAPSHOT</version>-->
-<!--        </dependency>-->
+        <dependency>
+            <groupId>com.lei</groupId>
+            <artifactId>model</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>com.lei</groupId>
+            <artifactId>service-utils</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>com.lei</groupId>
+            <artifactId>common_utils</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
         <!--web-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -40,6 +46,7 @@
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
+            <version>8.0.25</version>
         </dependency>
         <!--开发者工具-->
         <dependency>
@@ -48,22 +55,21 @@
             <optional>true</optional>
         </dependency>
         <!-- 服务调用feign -->
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-openfeign</artifactId>
+<!--        <dependency>-->
+<!--            <groupId>org.springframework.cloud</groupId>-->
+<!--            <artifactId>spring-cloud-starter-openfeign</artifactId>-->
+<!--        </dependency>-->
 
-        </dependency>
-
-        <!-- 服务注册 -->
-        <dependency>
-            <groupId>com.alibaba.cloud</groupId>
-            <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
-        </dependency>
-        <!-- 流量控制 -->
-        <!-- <dependency>
-             <groupId>com.alibaba.cloud</groupId>
-             <artifactId>spring-cloud-starter-alibaba-sentinel</artifactId>
-         </dependency>-->
+<!--        &lt;!&ndash; 服务注册 &ndash;&gt;-->
+<!--        <dependency>-->
+<!--            <groupId>com.alibaba.cloud</groupId>-->
+<!--            <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>-->
+<!--        </dependency>-->
+<!--        &lt;!&ndash; 流量控制 &ndash;&gt;-->
+<!--        <dependency>-->
+<!--             <groupId>com.alibaba.cloud</groupId>-->
+<!--             <artifactId>spring-cloud-starter-alibaba-sentinel</artifactId>-->
+<!--         </dependency>-->
     </dependencies>
     <build>
         <plugins>

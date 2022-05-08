@@ -10,7 +10,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.4.9</version>
+        <version>2.2.1.RELEASE</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.lei</groupId>
@@ -24,7 +24,7 @@
         <cloud.version>Hoxton.RELEASE</cloud.version>
         <alibaba.version>2.2.0.RELEASE</alibaba.version>
         <mybatis-plus.version>3.3.1</mybatis-plus.version>
-        <mysql.version>5.1.46</mysql.version>
+<!--        <mysql.version>8.</mysql.version>-->
         <swagger.version>2.7.0</swagger.version>
         <jwt.version>0.7.0</jwt.version>
         <fastjson.version>1.2.29</fastjson.version>
@@ -54,6 +54,9 @@
                 <scope>import</scope>
             </dependency>
 
+
+
+
             <!--mybatis-plus 持久层-->
             <dependency>
                 <groupId>com.baomidou</groupId>
@@ -64,7 +67,7 @@
             <dependency>
                 <groupId>mysql</groupId>
                 <artifactId>mysql-connector-java</artifactId>
-                <version>${mysql.version}</version>
+                <version>8.0.25</version>
             </dependency>
 
             <!--swagger-->
@@ -126,16 +129,16 @@
     </dependencyManagement>
 
     <!-- 项目打包时会将java目录中的*.xml文件也进行打包 -->
-    <build>
-        <resources>
-            <resource>
-                <directory>src/main/java</directory>
-                <includes>
-                    <include>**/*.xml</include>
-                </includes>
-                <filtering>false</filtering>
-            </resource>
-        </resources>
-    </build>
+<!--    <build>-->
+<!--        <resources>-->
+<!--            <resource>-->
+<!--                <directory>src/main/java</directory>-->
+<!--                <includes>-->
+<!--                    <include>**/*.xml</include>-->
+<!--                </includes>-->
+<!--                <filtering>false</filtering>-->
+<!--            </resource>-->
+<!--        </resources>-->
+<!--    </build>-->
 
 </project>
