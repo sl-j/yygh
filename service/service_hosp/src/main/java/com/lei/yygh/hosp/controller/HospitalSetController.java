@@ -46,7 +46,7 @@ public class HospitalSetController {
 
     //条件查询带分页
     @ApiOperation("分页查询医院设置（带模糊）")
-    @PostMapping("findPage/{current}/{limit}")
+    @PostMapping("findPageHospSet/{current}/{limit}")
     public Result findPageHospSet(@PathVariable long current,
                                   @PathVariable long limit,
                                   @RequestBody(required = false) HospitalSetQueryVo hospitalSetQueryVo){
@@ -75,7 +75,7 @@ public class HospitalSetController {
      * 修改医院设置
      */
     @ApiOperation("修改医院设置")
-    @PostMapping("updateHospSet")
+    @PostMapping("updateHospitalSet")
     public Result updateHospSet(@RequestBody HospitalSet hospitalSet){
         return hospitalSetService.updateHospSet(hospitalSet);
     }
@@ -87,5 +87,24 @@ public class HospitalSetController {
     @DeleteMapping("batchRemove")
     public Result batchRemoveHospSet(@RequestBody List<Long> idList){
         return hospitalSetService.batchRemoveHospSet(idList);
+    }
+
+    /**
+     * 医院设置锁定和解锁
+     */
+    @ApiOperation("医院设置锁定和解锁")
+    @PutMapping("lockHospitalSet/{id}/{status}")
+    public Result lockHospitalSet(@PathVariable Long id,
+                                  @PathVariable Integer status){
+        return hospitalSetService.lockHospitalSet(id,status);
+    }
+
+    /**
+     * 发送签名密钥
+     */
+    @ApiOperation("发送签名密钥")
+    @PutMapping("sendKey/{id}")
+    public Result sendKey(@PathVariable Long id){
+        return hospitalSetService.sendKey(id);
     }
 }

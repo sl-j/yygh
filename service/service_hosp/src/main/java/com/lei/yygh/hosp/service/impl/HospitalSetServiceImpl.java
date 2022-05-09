@@ -33,8 +33,13 @@ public class HospitalSetServiceImpl extends ServiceImpl<HospitalSetMapper, Hospi
         //分页查询
         LambdaQueryWrapper<HospitalSet> queryWrapper = new LambdaQueryWrapper<>();
         //根据医院名称和医院编号模糊查询
-        String hosname = hospitalSetQueryVo.getHosname();
-        String hocode = hospitalSetQueryVo.getHoscode();
+        String hosname = null;
+        String hocode = null;
+        if(hospitalSetQueryVo != null){
+            hosname = hospitalSetQueryVo.getHosname();
+            hocode = hospitalSetQueryVo.getHoscode();
+        }
+
         if(!StringUtils.isEmpty(hosname)){
             queryWrapper.like(HospitalSet::getHosname,hospitalSetQueryVo.getHosname());
         }
@@ -79,6 +84,26 @@ public class HospitalSetServiceImpl extends ServiceImpl<HospitalSetMapper, Hospi
     @Override
     public Result batchRemoveHospSet(List<Long> idList) {
         hospitalSetMapper.deleteBatchIds(idList);
+        return Result.ok();
+    }
+
+    @Override
+    public Result lockHospitalSet(Long id, Integer status) {
+        //根据id查询医院信息
+        HospitalSet hospitalSet = hospitalSetMapper.selectById(id);
+        //设置状态
+        hospitalSet.setStatus(status);
+        //修改状态
+        hospitalSetMapper.updateById(hospitalSet);
+        return Result.ok();
+    }
+
+    @Override
+    public Result sendKey(Long id) {
+        HospitalSet hospitalSet = hospitalSetMapper.selectById(id);
+        String signKey = hospitalSet.getSignKey();
+        String hoscode = hospitalSet.getHoscode();
+        //TODO 发送短信
         return Result.ok();
     }
 }

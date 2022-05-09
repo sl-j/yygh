@@ -17,4 +17,8 @@ public interface HospitalSetService extends IService<HospitalSet> {
     Result updateHospSet(HospitalSet hospitalSet);
 
     Result batchRemoveHospSet(List<Long> idList);
+
+    Result lockHospitalSet(Long id, Integer status);
+
+    Result sendKey(Long id);
 }
