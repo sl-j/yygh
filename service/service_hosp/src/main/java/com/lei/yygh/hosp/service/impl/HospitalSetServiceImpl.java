@@ -1,7 +1,6 @@
 package com.lei.yygh.hosp.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.extension.api.R;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.lei.yygh.common.result.Result;
@@ -11,7 +10,6 @@ import com.lei.yygh.hosp.mapper.HospitalSetMapper;
 import com.lei.yygh.hosp.service.HospitalSetService;
 import com.lei.yygh.model.hosp.HospitalSet;
 import com.lei.yygh.vo.hosp.HospitalSetQueryVo;
-import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -105,5 +103,13 @@ public class HospitalSetServiceImpl extends ServiceImpl<HospitalSetMapper, Hospi
         String hoscode = hospitalSet.getHoscode();
         //TODO 发送短信
         return Result.ok();
+    }
+
+    @Override
+    public String getSignKey(String hoscode1) {
+        LambdaQueryWrapper<HospitalSet> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(HospitalSet::getHoscode,hoscode1);
+        HospitalSet hospitalSet = baseMapper.selectOne(queryWrapper);
+        return hospitalSet.getSignKey();
     }
 }

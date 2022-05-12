@@ -21,4 +21,6 @@ public interface HospitalSetService extends IService<HospitalSet> {
     Result lockHospitalSet(Long id, Integer status);
 
     Result sendKey(Long id);
+
+    String getSignKey(String hoscode1);
 }

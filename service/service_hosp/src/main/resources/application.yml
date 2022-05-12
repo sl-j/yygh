@@ -31,7 +31,7 @@ spring:
 #  #mongodb地址
   data:
     mongodb:
-      uri: 121.43.154.153:27017/yygh_hosp
+      uri: mongodb://121.43.154.153:27017/yygh_hosp
 
 #mybatis-plus
 mybatis-plus:
