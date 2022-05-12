@@ -29,9 +29,9 @@ spring:
 #        dashboard: http://127.0.0.1:8858
 
 #  #mongodb地址
-#  data:
-#    mongodb:
-#      host:
+  data:
+    mongodb:
+      uri: 121.43.154.153:27017/yygh_hosp
 
 #mybatis-plus
 mybatis-plus:
