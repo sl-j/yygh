@@ -2,6 +2,7 @@ package com.lei.yygh.hosp.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.lei.yygh.common.result.Result;
+import com.lei.yygh.model.hosp.Hospital;
 import com.lei.yygh.model.hosp.HospitalSet;
 import com.lei.yygh.vo.hosp.HospitalSetQueryVo;
 

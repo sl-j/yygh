@@ -6,4 +6,6 @@ import javax.servlet.http.HttpServletRequest;
 
 public interface HospitalService {
     Result saveHosp(HttpServletRequest request);
+
+    Result getHospital(HttpServletRequest request);
 }

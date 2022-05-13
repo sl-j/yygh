@@ -8,6 +8,7 @@ import com.lei.yygh.common.result.ResultCodeEnum;
 import com.lei.yygh.common.utils.MD5;
 import com.lei.yygh.hosp.mapper.HospitalSetMapper;
 import com.lei.yygh.hosp.service.HospitalSetService;
+import com.lei.yygh.model.hosp.Hospital;
 import com.lei.yygh.model.hosp.HospitalSet;
 import com.lei.yygh.vo.hosp.HospitalSetQueryVo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -112,4 +113,6 @@ public class HospitalSetServiceImpl extends ServiceImpl<HospitalSetMapper, Hospi
         HospitalSet hospitalSet = baseMapper.selectOne(queryWrapper);
         return hospitalSet.getSignKey();
     }
+
+
 }

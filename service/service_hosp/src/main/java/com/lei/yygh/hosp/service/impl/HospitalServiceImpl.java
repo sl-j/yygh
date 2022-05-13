@@ -5,15 +5,25 @@ import com.lei.yygh.common.exception.YyghException;
 import com.lei.yygh.common.helper.HttpRequestHelper;
 import com.lei.yygh.common.result.Result;
 import com.lei.yygh.common.result.ResultCodeEnum;
+import com.lei.yygh.common.utils.BeanCopyUtils;
 import com.lei.yygh.common.utils.MD5;
+import com.lei.yygh.hosp.repository.DepartmentRepository;
 import com.lei.yygh.hosp.repository.HospitalRepository;
+import com.lei.yygh.hosp.repository.ScheduleRepository;
 import com.lei.yygh.hosp.service.HospitalService;
 import com.lei.yygh.hosp.service.HospitalSetService;
+
+import com.lei.yygh.model.hosp.Department;
 import com.lei.yygh.model.hosp.Hospital;
+import com.lei.yygh.model.hosp.Schedule;
+import com.lei.yygh.vo.hosp.DepartmentQueryVo;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.*;
+import org.springframework.data.redis.connection.ReactiveSetCommands;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
@@ -28,22 +38,15 @@ public class HospitalServiceImpl implements HospitalService {
     @Autowired
     private HospitalSetService hospitalSetService;
 
+
     @Override
     public Result saveHosp(HttpServletRequest request) {
         //获取传递来的医院信息
         Map<String, String[]> requestMap = request.getParameterMap();
         Map<String, Object> map = HttpRequestHelper.switchMap(requestMap);
 
-        //获取医院系统传递来的签名
-        String hospSign = (String) map.get("sign");
-        //获取医院的编号
-        String hoscode1 = (String) map.get("hoscode");
-        //根据编号查询数据库中的签名
-        String signKey = hospitalSetService.getSignKey(hoscode1);
-        //查询出的签名进行MD5加密
-        String encryptKeyMD5 = MD5.encrypt(signKey);
-        //判断和医院传来的签名是否一致
-        if(!encryptKeyMD5.equals(hospSign)){
+        //验证签名信息
+        if(!validSignKey(map)){
             throw new YyghException(ResultCodeEnum.SIGN_ERROR);
         }
 
@@ -76,4 +79,42 @@ public class HospitalServiceImpl implements HospitalService {
 
         return Result.ok();
     }
+
+    @Override
+    public Result getHospital(HttpServletRequest request) {
+        //获取传递来的医院信息
+        Map<String, String[]> requestMap = request.getParameterMap();
+        Map<String, Object> map = HttpRequestHelper.switchMap(requestMap);
+
+        //获取医院编号
+        String hoscode = (String) map.get("hoscode");
+
+        //验证签名信息
+        if(!validSignKey(map)){
+            throw new YyghException(ResultCodeEnum.SIGN_ERROR);
+        }
+
+        //根据医院编号查询医院信息
+        Hospital hospital = hospitalRepository.getHospitalByHoscode(hoscode);;
+
+        return Result.ok(hospital);
+    }
+
+    //验证签名信息
+    public boolean validSignKey(Map<String, Object> map){
+        //获取医院系统传递来的签名
+        String hospSign = (String) map.get("sign");
+        //获取医院的编号
+        String hoscode1 = (String) map.get("hoscode");
+        //根据编号查询数据库中的签名
+        String signKey = hospitalSetService.getSignKey(hoscode1);
+        //查询出的签名进行MD5加密
+        String encryptKeyMD5 = MD5.encrypt(signKey);
+        //判断和医院传来的签名是否一致
+        if(!encryptKeyMD5.equals(hospSign)){
+            return false;
+        }
+        return true;
+    }
+
 }
