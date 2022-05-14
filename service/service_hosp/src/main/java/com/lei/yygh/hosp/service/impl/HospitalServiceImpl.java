@@ -1,6 +1,7 @@
 package com.lei.yygh.hosp.service.impl;
 
 import com.alibaba.fastjson.JSONObject;
+import com.lei.yygh.cmn.client.DictFeignClient;
 import com.lei.yygh.common.exception.YyghException;
 import com.lei.yygh.common.helper.HttpRequestHelper;
 import com.lei.yygh.common.result.Result;
@@ -17,6 +18,8 @@ import com.lei.yygh.model.hosp.Department;
 import com.lei.yygh.model.hosp.Hospital;
 import com.lei.yygh.model.hosp.Schedule;
 import com.lei.yygh.vo.hosp.DepartmentQueryVo;
+import com.lei.yygh.vo.hosp.HospitalQueryVo;
+import com.lei.yygh.vo.hosp.HospitalSetQueryVo;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +30,7 @@ import org.springframework.util.StringUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 
 @Service
@@ -37,6 +41,9 @@ public class HospitalServiceImpl implements HospitalService {
 
     @Autowired
     private HospitalSetService hospitalSetService;
+
+    @Autowired
+    private DictFeignClient dictFeignClient;
 
 
     @Override
@@ -98,6 +105,47 @@ public class HospitalServiceImpl implements HospitalService {
         Hospital hospital = hospitalRepository.getHospitalByHoscode(hoscode);;
 
         return Result.ok(hospital);
+    }
+
+    @Override
+    public Result selecthospPage(Integer page, Integer limit, HospitalQueryVo hospitalQueryVo) {
+        //创建pageAble对象
+        Pageable pageable = PageRequest.of(page - 1,limit);
+        //创建条件匹配器
+        ExampleMatcher matcher = ExampleMatcher.matching()
+                .withStringMatcher(ExampleMatcher.StringMatcher.CONTAINING)
+                .withIgnoreCase(true);
+
+        //vo转化为hospital对象
+        Hospital hospital = new Hospital();
+        BeanUtils.copyProperties(hospitalQueryVo,hospital);
+
+        Example<Hospital> example = Example.of(hospital,matcher);
+        Page<Hospital> pages = hospitalRepository.findAll(example, pageable);
+
+
+        //获取list集合，通过stream流的方式进行遍历，将医院等级进行映射，这是一个mongo跨mysql的过程
+        pages.getContent().stream().forEach(item ->{
+            this.setHospitalHosType(item);
+        });
+
+        return Result.ok(pages);
+    }
+
+    //将遍历的每一个医院的医院等级进行映射  dict_code是mysql的数据字典表中的dict_code,value是mongo中的hostype
+    private Hospital setHospitalHosType(Hospital hospital) {
+        //根据distCode和value获取医院等级的名称
+        String hostypeString = dictFeignClient.getName("Hostype", hospital.getHostype());
+
+        //查询省 市和区的信息
+        String provinceName = dictFeignClient.getName(hospital.getProvinceCode());
+        String cityName = dictFeignClient.getName(hospital.getCityCode());
+        String districtName = dictFeignClient.getName(hospital.getDistrictCode());
+
+        hospital.getParam().put("hostypeString",hostypeString);
+        hospital.getParam().put("fullAddress",provinceName + cityName + districtName);
+
+        return hospital;
     }
 
     //验证签名信息

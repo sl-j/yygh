@@ -46,5 +46,20 @@ public class DictController {
     }
 
 
+    //根据dictcode和value查询
+    @ApiOperation(value = "根据dictcode和value查询数据字典名称")
+    @GetMapping("getName/{dictCode}/{value}")
+    public String getName(@PathVariable String dictCode,
+                          @PathVariable String value){
+        return dictService.getName(dictCode,value);
+    }
+
+    //根据value查询数据字典的名称
+    @ApiOperation(value = "根据value查询数据字典的名称")
+    @GetMapping("getName/{value}")
+    public String getName(@PathVariable String value){
+        return dictService.getName("",value);
+    }
+
 
 }

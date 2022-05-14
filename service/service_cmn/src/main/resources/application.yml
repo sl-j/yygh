@@ -20,6 +20,12 @@ spring:
     date-format: yyyy-MM-dd HH:mm:ss
     time-zone: GMT+8
 
+  #nacos地址
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 127.0.0.1:8848
+
   redis:
     host: 121.43.154.153
     password: 437101.Sl

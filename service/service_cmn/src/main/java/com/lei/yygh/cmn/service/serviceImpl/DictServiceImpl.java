@@ -13,6 +13,7 @@ import com.lei.yygh.vo.cmn.DictEeVo;
 import org.springframework.beans.BeanUtils;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
@@ -65,6 +66,26 @@ public class DictServiceImpl extends ServiceImpl<DictMapper, Dict> implements Di
             e.printStackTrace();
         }
         return Result.ok();
+    }
+
+    @Override
+    public String getName(String dictCode, String value) {
+        //如果dictCode为空
+        LambdaQueryWrapper<Dict> queryWrapper = new LambdaQueryWrapper<>();
+        if(StringUtils.isEmpty(dictCode)){
+            queryWrapper.eq(Dict::getValue,value);
+            Dict dict = baseMapper.selectOne(queryWrapper);
+            return dict.getName();
+        }else{
+            //根据dictCode得到id值，再根据id值和value进行查询
+            queryWrapper.eq(Dict::getDictCode,dictCode);
+            Dict dict = baseMapper.selectOne(queryWrapper);
+            Long id = dict.getId();
+            //根据parentId和value进行查询
+            return baseMapper.selectOne(new LambdaQueryWrapper<Dict>()
+                    .eq(Dict::getParentId, id)
+                    .eq(Dict::getValue, value)).getName();
+        }
     }
 
     //判断id下面是否有子节点
