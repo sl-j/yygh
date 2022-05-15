@@ -61,5 +61,10 @@ public class DictController {
         return dictService.getName("",value);
     }
 
-
+    //根据dictCode查询下属结点
+    @ApiOperation(value = "根据dictCode查询下属结点")
+    @GetMapping("findByDictCode/{dictCode}")
+    public Result findByDictCode(@PathVariable String dictCode){
+        return dictService.findByDictCode(dictCode);
+    }
 }

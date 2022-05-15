@@ -29,9 +29,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 public class HospitalServiceImpl implements HospitalService {
@@ -130,6 +128,34 @@ public class HospitalServiceImpl implements HospitalService {
         });
 
         return Result.ok(pages);
+    }
+
+    //更新医院上线状态
+    @Override
+    public Result updateHospStatus(String id, Integer status) {
+        //根据医院id查询医院信息
+        Hospital hospital = hospitalRepository.findById(id).get();
+        //修改状态
+        hospital.setStatus(status);
+        hospital.setUpdateTime(new Date());
+        hospitalRepository.save(hospital);
+        return Result.ok();
+    }
+
+    //医院详情信息
+    @Override
+    public Result showHospDetail(String id) {
+        Map<String,Object> result = new HashMap<>();
+        //将查询出的医院信息进行映射
+        Hospital hospital = setHospitalHosType(hospitalRepository.findById(id).get());
+
+        result.put("hospital",hospital);
+        result.put("bookingRule",hospital.getBookingRule());
+
+        //已经单独将预约规则提出，所以将原本的设置为null
+        hospital.setBookingRule(null);
+
+        return Result.ok(result);
     }
 
     //将遍历的每一个医院的医院等级进行映射  dict_code是mysql的数据字典表中的dict_code,value是mongo中的hostype

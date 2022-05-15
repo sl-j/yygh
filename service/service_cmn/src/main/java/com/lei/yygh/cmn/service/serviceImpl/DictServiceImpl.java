@@ -88,6 +88,18 @@ public class DictServiceImpl extends ServiceImpl<DictMapper, Dict> implements Di
         }
     }
 
+    //根据dictCode查询下属结点
+    @Override
+    public Result findByDictCode(String dictCode) {
+        LambdaQueryWrapper<Dict> queryWrapper = new LambdaQueryWrapper<>();
+        //根据dictCode得到id值
+        queryWrapper.eq(Dict::getDictCode,dictCode);
+        Dict dict = baseMapper.selectOne(queryWrapper);
+        Long id = dict.getId();
+        List<Dict> childData = this.findChildData(id);
+        return Result.ok(childData);
+    }
+
     //判断id下面是否有子节点
     private boolean isChildren(Long id){
         LambdaQueryWrapper<Dict> queryWrapper = new LambdaQueryWrapper();

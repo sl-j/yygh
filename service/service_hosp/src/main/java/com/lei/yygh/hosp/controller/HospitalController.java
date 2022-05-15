@@ -10,6 +10,8 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Map;
+
 @Api(tags = "医院信息接口")
 @RestController
 @RequestMapping("/admin/hosp/hospital")
@@ -26,5 +28,20 @@ public class HospitalController {
                            @PathVariable Integer limit,
                            HospitalQueryVo hospitalQueryVo){
         return hospitalService.selecthospPage(page,limit,hospitalQueryVo);
+    }
+
+    //更新医院上线状态
+    @ApiOperation(value = "更新医院上线状态")
+    @GetMapping("updateHospStatus/{id}/{status}")
+    public Result updateHospStatus(@PathVariable String id,
+                                   @PathVariable Integer status){
+        return hospitalService.updateHospStatus(id,status);
+    }
+
+    //医院详情信息
+    @ApiOperation(value = "医院详情信息")
+    @GetMapping("showHospDetail/{id}")
+    public Result showHospDetail(@PathVariable String id){
+        return hospitalService.showHospDetail(id);
     }
 }
