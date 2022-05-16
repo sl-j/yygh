@@ -10,14 +10,18 @@ import com.lei.yygh.hosp.repository.DepartmentRepository;
 import com.lei.yygh.hosp.service.DepartmentService;
 import com.lei.yygh.hosp.service.HospitalSetService;
 import com.lei.yygh.model.hosp.Department;
+import com.lei.yygh.vo.hosp.DepartmentVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
 public class DepartmentServiceImpl implements DepartmentService {
@@ -115,6 +119,52 @@ public class DepartmentServiceImpl implements DepartmentService {
         }
 
         return Result.ok();
+    }
+
+    //根据医院编号，查询所有科室
+    @Override
+    public Result getDeptList(String hoscode) {
+        //创建list集合
+        List<DepartmentVo> departmentVoList = new ArrayList<>();
+
+        //根据医院编号查询科室信息
+        Department departmentQuery = new Department();
+        departmentQuery.setHoscode(hoscode);
+        Example<Department> example = Example.of(departmentQuery);
+        List<Department> departmentList = departmentRepository.findAll(example);
+
+        //根据大科室编号bigcode分组，获取每个大科室的下级子科室
+        Map<String, List<Department>> departmentMap =
+                departmentList.stream().collect(Collectors.groupingBy(Department::getBigcode));
+
+        //遍历map
+        for(Map.Entry<String,List<Department>> entry : departmentMap.entrySet()){
+            String bigcode = entry.getKey();
+            List<Department> departments = entry.getValue();
+
+            //封装大科室
+            DepartmentVo departmentVo = new DepartmentVo();
+            departmentVo.setDepcode(bigcode);
+            departmentVo.setDepname(departments.get(0).getBigname());
+
+            //封装小科室
+            List<DepartmentVo> children = new ArrayList<>();
+            for(Department department : departments){
+                DepartmentVo departmentVo1 = new DepartmentVo();
+                departmentVo1.setDepcode(department.getDepcode());
+                departmentVo1.setDepname(department.getDepname());
+                children.add(departmentVo1);
+            }
+
+            //小科室放入大科室中
+            departmentVo.setChildren(children);
+
+            departmentVoList.add(departmentVo);
+        }
+
+
+
+        return Result.ok(departmentVoList);
     }
 
     //验证签名信息

@@ -158,6 +158,12 @@ public class HospitalServiceImpl implements HospitalService {
         return Result.ok(result);
     }
 
+    //获取医院名称
+    @Override
+    public String getHospname(String hoscode) {
+        return hospitalRepository.getHospitalByHoscode(hoscode).getHosname();
+    }
+
     //将遍历的每一个医院的医院等级进行映射  dict_code是mysql的数据字典表中的dict_code,value是mongo中的hostype
     private Hospital setHospitalHosType(Hospital hospital) {
         //根据distCode和value获取医院等级的名称

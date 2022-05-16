@@ -10,4 +10,6 @@ public interface DepartmentService {
     Result saveDepartment(HttpServletRequest request);
 
     Result removeDepartment(HttpServletRequest request);
+
+    Result getDeptList(String hoscode);
 }

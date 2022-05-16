@@ -10,4 +10,6 @@ public interface ScheduleService {
     Result findSchedule(HttpServletRequest request);
 
     Result removeSchedule(HttpServletRequest request);
+
+    Result getScheduleRule(Long page, Long limit, String hoscode, String depcode);
 }
