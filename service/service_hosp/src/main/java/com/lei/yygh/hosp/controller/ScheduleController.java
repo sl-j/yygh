@@ -27,4 +27,13 @@ public class ScheduleController {
         return scheduleService.getScheduleRule(page,limit,hoscode,depcode);
     }
 
+    //根据医院编号、科室编号和工作日期，查询排版详细信息
+    @ApiOperation(value = "查询排版详细信息")
+    @GetMapping("getScheduleDetail/{hoscode}/{depcode}/{workDate}")
+    public Result getScheduleDetail( @PathVariable String hoscode,
+                                     @PathVariable String depcode,
+                                     @PathVariable String workDate){
+        return scheduleService.getScheduleDetail(hoscode,depcode,workDate);
+
+    }
 }

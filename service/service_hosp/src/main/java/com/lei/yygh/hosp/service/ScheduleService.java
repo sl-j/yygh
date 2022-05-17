@@ -12,4 +12,6 @@ public interface ScheduleService {
     Result removeSchedule(HttpServletRequest request);
 
     Result getScheduleRule(Long page, Long limit, String hoscode, String depcode);
+
+    Result getScheduleDetail(String hoscode, String depcode, String workDate);
 }

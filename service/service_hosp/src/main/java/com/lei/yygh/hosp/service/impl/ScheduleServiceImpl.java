@@ -7,12 +7,14 @@ import com.lei.yygh.common.result.Result;
 import com.lei.yygh.common.result.ResultCodeEnum;
 import com.lei.yygh.common.utils.MD5;
 import com.lei.yygh.hosp.repository.ScheduleRepository;
+import com.lei.yygh.hosp.service.DepartmentService;
 import com.lei.yygh.hosp.service.HospitalService;
 import com.lei.yygh.hosp.service.HospitalSetService;
 import com.lei.yygh.hosp.service.ScheduleService;
 import com.lei.yygh.model.hosp.Department;
 import com.lei.yygh.model.hosp.Schedule;
 import com.lei.yygh.vo.hosp.BookingScheduleRuleVo;
+import io.swagger.annotations.ApiOperation;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeConstants;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,6 +46,9 @@ public class ScheduleServiceImpl implements ScheduleService {
 
     @Autowired
     private HospitalService hospitalService;
+
+    @Autowired
+    private DepartmentService departmentService;
 
     @Override
     public Result saveSchedule(HttpServletRequest request) {
@@ -192,6 +197,29 @@ public class ScheduleServiceImpl implements ScheduleService {
 
         return Result.ok(result);
     }
+
+    //根据医院编号、科室编号和工作日期，查询排版详细信息
+    @Override
+    public Result getScheduleDetail(String hoscode, String depcode, String workDate) {
+        List<Schedule> scheduleList = scheduleRepository.findScheduleByHoscodeAndDepcodeAndWorkDate(hoscode,depcode,new DateTime(workDate).toDate());
+
+        //设置其他参数:医院名称、科室名称、星期
+        scheduleList.stream().forEach(item ->{
+            packageSchedule(item);
+        });
+        return Result.ok(scheduleList);
+    }
+
+    //封装排班详情其他值：医院名称、科室名称、星期
+    private void packageSchedule(Schedule schedule) {
+        //设置医院名称
+        schedule.getParam().put("hosname",hospitalService.getHospname(schedule.getHoscode()));
+        //设置科室名称
+        schedule.getParam().put("depname",departmentService.getDepName(schedule.getHoscode(),schedule.getDepcode()));
+        //设置星期
+        schedule.getParam().put("dayOfWeek",getDayOfWeek(new DateTime(schedule.getWorkDate())));
+    }
+
 
     //验证签名信息
     public boolean validSignKey(Map<String, Object> map){

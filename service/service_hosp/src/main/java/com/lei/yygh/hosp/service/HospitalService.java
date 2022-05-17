@@ -19,4 +19,5 @@ public interface HospitalService {
     Result showHospDetail(String id);
 
     String getHospname(String hoscode);
+
 }

@@ -167,6 +167,14 @@ public class DepartmentServiceImpl implements DepartmentService {
         return Result.ok(departmentVoList);
     }
 
+    //根据医院编号、科室编号查询科室名称
+    @Override
+    public String getDepName(String hoscode, String depcode) {
+        Department department = departmentRepository.getDepartmentByHoscodeAndDepcode(hoscode, depcode);
+        if(department != null) return department.getDepname();
+        return null;
+    }
+
     //验证签名信息
     public boolean validSignKey(Map<String, Object> map){
         //获取医院系统传递来的签名

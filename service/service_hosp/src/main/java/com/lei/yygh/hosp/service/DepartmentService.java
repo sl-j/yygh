@@ -12,4 +12,6 @@ public interface DepartmentService {
     Result removeDepartment(HttpServletRequest request);
 
     Result getDeptList(String hoscode);
+
+    String getDepName(String hoscode, String depcode);
 }
