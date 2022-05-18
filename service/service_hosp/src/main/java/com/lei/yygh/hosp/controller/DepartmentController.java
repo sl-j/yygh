@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.*;
 @Api(tags = "科室信息接口")
 @RestController
 @RequestMapping("/admin/hosp/department")
-@CrossOrigin
 public class DepartmentController {
 
     @Autowired

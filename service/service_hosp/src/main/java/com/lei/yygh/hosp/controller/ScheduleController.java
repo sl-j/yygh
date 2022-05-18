@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.*;
 @Api(tags = "排班信息接口")
 @RestController
 @RequestMapping("/admin/hosp/schedule")
-@CrossOrigin
 public class ScheduleController {
 
     @Autowired
