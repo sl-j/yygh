@@ -164,6 +164,27 @@ public class HospitalServiceImpl implements HospitalService {
         return hospitalRepository.getHospitalByHoscode(hoscode).getHosname();
     }
 
+    //根据医院名称查询
+    @Override
+    public List<Hospital> findByHosName(String hosname) {
+
+        return hospitalRepository.findHospitalByHosnameLike(hosname);
+    }
+
+    @Override
+    public Map<String, Object> findHospDetail(String hoscode) {
+        Map<String,Object> result = new HashMap<>();
+        //将查询出的医院信息进行映射
+        Hospital hospital = setHospitalHosType(hospitalRepository.getHospitalByHoscode(hoscode));
+
+        result.put("hospital",hospital);
+        result.put("bookingRule",hospital.getBookingRule());
+
+        //已经单独将预约规则提出，所以将原本的设置为null
+        hospital.setBookingRule(null);
+
+        return result;
+    }
 
     //将遍历的每一个医院的医院等级进行映射  dict_code是mysql的数据字典表中的dict_code,value是mongo中的hostype
     private Hospital setHospitalHosType(Hospital hospital) {
