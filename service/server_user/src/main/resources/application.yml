@@ -1,0 +1,36 @@
+# 服务端口
+server:
+  port: 8150
+
+# 服务名
+spring:
+  application:
+    name: service-user
+
+  profiles:
+    active: dev
+
+  #mysql
+  datasource:
+    url: jdbc:mysql://localhost:3306/yygh_user?characterEncoding=utf-8&serverTimezone=Asia/Shanghai
+    username: root
+    password: 437101.sl
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  #返回json的全局时间格式
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
+
+  #nacos地址
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 127.0.0.1:8848
+
+  redis:
+    host: 121.43.154.153
+    password: 437101.Sl
+
+
+
