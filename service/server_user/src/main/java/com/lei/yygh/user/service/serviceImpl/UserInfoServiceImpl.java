@@ -38,17 +38,33 @@ public class UserInfoServiceImpl extends ServiceImpl<UserInfoMapper, UserInfo> i
             throw new YyghException(ResultCodeEnum.CODE_ERROR);
         }
 
-        //判断是否是第一次登录
-        LambdaQueryWrapper<UserInfo> queryWrapper = new LambdaQueryWrapper<>();
-        queryWrapper.eq(UserInfo::getPhone,phone);
-        UserInfo userInfo = baseMapper.selectOne(queryWrapper);
+        UserInfo userInfo = null;
+        //如果微信登录，根据openid判断数据库中是否已经存在此微信用户
+        if(!StringUtils.isEmpty(loginVo.getOpenid())){
+            userInfo = selectInfoByOpenId(loginVo.getOpenid());
+            if(userInfo != null){
+                //如果已经存在，则更新手机号
+                userInfo.setPhone(phone);
+                updateById(userInfo);
+            }else{//微信登录在前，已经在数据库中存储了微信用户信息，所以用户信息不可能为null，如果为null，抛出异常
+                throw new YyghException(ResultCodeEnum.DATA_ERROR);
+            }
 
-        if(userInfo == null){//第一次登录
-            userInfo = new UserInfo();
-            userInfo.setName("");
-            userInfo.setPhone(phone);
-            userInfo.setStatus(1);
-            baseMapper.insert(userInfo);
+        }
+        //没有使用微信登录的话，userinfo为空,直接进行到这一步
+        if(userInfo == null){
+            //判断是否是第一次登录
+            LambdaQueryWrapper<UserInfo> queryWrapper = new LambdaQueryWrapper<>();
+            queryWrapper.eq(UserInfo::getPhone,phone);
+            userInfo = baseMapper.selectOne(queryWrapper);
+
+            if(userInfo == null){//第一次登录
+                userInfo = new UserInfo();
+                userInfo.setName("");
+                userInfo.setPhone(phone);
+                userInfo.setStatus(1);
+                baseMapper.insert(userInfo);
+            }
         }
 
         //判断用户是被否被禁用
@@ -74,6 +90,14 @@ public class UserInfoServiceImpl extends ServiceImpl<UserInfoMapper, UserInfo> i
         String token = JwtHelper.createToken(userInfo.getId(), name);
         map.put("token",token);
 
+
         return map;
+    }
+
+    @Override
+    public UserInfo selectInfoByOpenId(String openid) {
+        LambdaQueryWrapper<UserInfo> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(UserInfo::getOpenid,openid);
+        return baseMapper.selectOne(queryWrapper);
     }
 }
