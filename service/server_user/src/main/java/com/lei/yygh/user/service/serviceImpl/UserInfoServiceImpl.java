@@ -42,10 +42,23 @@ public class UserInfoServiceImpl extends ServiceImpl<UserInfoMapper, UserInfo> i
         //如果微信登录，根据openid判断数据库中是否已经存在此微信用户
         if(!StringUtils.isEmpty(loginVo.getOpenid())){
             userInfo = selectInfoByOpenId(loginVo.getOpenid());
+            //查询手机号是否已经注册过
+            LambdaQueryWrapper<UserInfo> queryWrapper = new LambdaQueryWrapper<>();
+            queryWrapper.eq(UserInfo::getPhone,phone);
+            UserInfo userInfoPhone = baseMapper.selectOne(queryWrapper);
             if(userInfo != null){
-                //如果已经存在，则更新手机号
-                userInfo.setPhone(phone);
-                updateById(userInfo);
+                //如果手机号已经注册过,进行更新
+                if(userInfoPhone != null){
+                    userInfoPhone.setOpenid(userInfo.getOpenid());
+                    userInfoPhone.setNickName(userInfo.getNickName());
+                    userInfoPhone.setStatus(userInfo.getStatus());
+                    updateById(userInfoPhone);
+                    //删除原先的微信注册信息
+                    baseMapper.deleteById(userInfo.getId());
+                }else{//如果手机号没有被注册过，插入手机号
+                    userInfo.setPhone(phone);
+                    updateById(userInfo);
+                }
             }else{//微信登录在前，已经在数据库中存储了微信用户信息，所以用户信息不可能为null，如果为null，抛出异常
                 throw new YyghException(ResultCodeEnum.DATA_ERROR);
             }

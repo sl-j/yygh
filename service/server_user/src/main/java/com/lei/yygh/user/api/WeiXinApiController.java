@@ -84,7 +84,6 @@ public class WeiXinApiController {
             JSONObject jsonObject = JSONObject.parseObject(accessTokenInfo);
             String access_token = (String) jsonObject.get("access_token");
             String openid = (String) jsonObject.get("openid");
-            UserInfo userInfo1 = null;
 
             //判断数据库中是否已经存在此微信用户
             UserInfo userInfoExist = userInfoService.selectInfoByOpenId(openid);
@@ -104,11 +103,11 @@ public class WeiXinApiController {
                 String headimgurl = resultUserInfoJson.getString("headimgurl");
 
                 //将扫码人信息添加到数据库中
-                userInfo1 = new UserInfo();
-                userInfo1.setOpenid(openid);
-                userInfo1.setNickName(nickname);
-                userInfo1.setStatus(1);
-                userInfoService.save(userInfo1);
+                userInfoExist = new UserInfo();
+                userInfoExist.setOpenid(openid);
+                userInfoExist.setNickName(nickname);
+                userInfoExist.setStatus(1);
+                userInfoService.save(userInfoExist);
             }
 
             //返回name和token字符串
