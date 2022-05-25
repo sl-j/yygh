@@ -24,6 +24,7 @@ public enum ResultCodeEnum {
     REGISTER_MOBLE_ERROR(213, "手机号已被使用"),
     LOGIN_AURH(214, "需要登录"),
     LOGIN_ACL(215, "没有权限"),
+    FILE_TYPE_ERROR(507,"文件类型错误，请上传png或jpg格式的图片"),
 
     URL_ENCODE_ERROR( 216, "URL编码失败"),
     ILLEGAL_CALLBACK_REQUEST_ERROR( 217, "非法回调请求"),
