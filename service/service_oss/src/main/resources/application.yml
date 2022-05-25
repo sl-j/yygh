@@ -1,0 +1,33 @@
+# 服务端口
+server:
+  port: 8205
+
+# 服务名
+spring:
+  application:
+    name: service-oss
+
+  profiles:
+    active: dev
+
+
+  #返回json的全局时间格式
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
+
+  #nacos地址
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 127.0.0.1:8848
+
+aliyun:
+  oss:
+    endpoint: oss-cn-hangzhou.aliyuncs.com
+    accessKeyID: LTAI5tFD6c1ZpmbETk5egnP6
+    accessKeySecret: fL5YVfG93ED2VYiYY1Yk11b6OwK0H8
+    bucket: yygh-lei
+
+
+
