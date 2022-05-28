@@ -27,4 +27,6 @@ public interface HospitalService {
 
 
     Map<String, Object> findHospDetail(String hoscode);
+
+    Hospital getByHoscode(String hoscode);
 }

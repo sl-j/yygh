@@ -14,7 +14,7 @@ import java.util.List;
 
 @Api(tags = "就诊人管理")
 @RestController
-@RequestMapping("/api/user/patient")
+@RequestMapping("/api/patient")
 public class PatientController {
 
     @Autowired

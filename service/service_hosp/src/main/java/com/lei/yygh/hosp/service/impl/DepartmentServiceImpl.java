@@ -175,6 +175,11 @@ public class DepartmentServiceImpl implements DepartmentService {
         return null;
     }
 
+    @Override
+    public Department getDepartment(String hoscode, String depcode) {
+        return departmentRepository.getDepartmentByHoscodeAndDepcode(hoscode, depcode);
+    }
+
     //验证签名信息
     public boolean validSignKey(Map<String, Object> map){
         //获取医院系统传递来的签名

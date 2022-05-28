@@ -3,6 +3,7 @@ package com.lei.yygh.hosp.service;
 import com.lei.yygh.common.result.Result;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Map;
 
 public interface ScheduleService {
     Result saveSchedule(HttpServletRequest request);
@@ -14,4 +15,6 @@ public interface ScheduleService {
     Result getScheduleRule(Long page, Long limit, String hoscode, String depcode);
 
     Result getScheduleDetail(String hoscode, String depcode, String workDate);
+
+    Map<String,Object> getBookingScheduleRule(Integer page, Integer limit, String hoscode, String depcode);
 }

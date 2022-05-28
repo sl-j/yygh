@@ -100,10 +100,12 @@ public class HospitalServiceImpl implements HospitalService {
         }
 
         //根据医院编号查询医院信息
-        Hospital hospital = hospitalRepository.getHospitalByHoscode(hoscode);;
+        Hospital hospital = hospitalRepository.getHospitalByHoscode(hoscode);
 
         return Result.ok(hospital);
     }
+
+
 
     @Override
     public Result selecthospPage(Integer page, Integer limit, HospitalQueryVo hospitalQueryVo) {
@@ -184,6 +186,12 @@ public class HospitalServiceImpl implements HospitalService {
         hospital.setBookingRule(null);
 
         return result;
+    }
+
+    //根据医院编号获取医院信息
+    @Override
+    public Hospital getByHoscode(String hoscode) {
+        return hospitalRepository.getHospitalByHoscode(hoscode);
     }
 
     //将遍历的每一个医院的医院等级进行映射  dict_code是mysql的数据字典表中的dict_code,value是mongo中的hostype

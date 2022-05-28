@@ -1,4 +1,4 @@
-package com.lei.yygh.user.controller;
+package com.lei.yygh.user.api;
 
 
 import com.lei.yygh.common.result.Result;
