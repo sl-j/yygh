@@ -5,6 +5,7 @@ import com.lei.yygh.common.result.Result;
 import com.lei.yygh.model.hosp.Hospital;
 import com.lei.yygh.model.hosp.HospitalSet;
 import com.lei.yygh.vo.hosp.HospitalSetQueryVo;
+import com.lei.yygh.vo.order.SignInfoVo;
 
 import java.util.List;
 
@@ -24,4 +25,6 @@ public interface HospitalSetService extends IService<HospitalSet> {
     Result sendKey(Long id);
 
     String getSignKey(String hoscode1);
+
+    SignInfoVo getSignInfoVo(String hoscode);
 }

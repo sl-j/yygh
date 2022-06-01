@@ -9,31 +9,27 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>server_user</artifactId>
+    <artifactId>service_order</artifactId>
 
     <dependencies>
-
         <dependency>
             <groupId>com.lei</groupId>
-            <artifactId>service_cmn_client</artifactId>
+            <artifactId>service_client</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
-
         <dependency>
-            <groupId>org.apache.httpcomponents</groupId>
-            <artifactId>httpclient</artifactId>
-
-            <version>4.5.1</version>
-
+            <groupId>com.lei</groupId>
+            <artifactId>service_user_client</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+            <scope>compile</scope>
         </dependency>
-
         <dependency>
-            <groupId>org.apache.httpcomponents</groupId>
-            <artifactId>httpcore</artifactId>
-            <version>4.4.5</version>
+            <groupId>com.lei</groupId>
+            <artifactId>service_hosp_client</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+            <scope>compile</scope>
         </dependency>
     </dependencies>
-
 
 
 </project>

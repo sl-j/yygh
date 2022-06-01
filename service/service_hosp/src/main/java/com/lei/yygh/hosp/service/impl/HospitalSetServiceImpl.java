@@ -1,8 +1,10 @@
 package com.lei.yygh.hosp.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.lei.yygh.common.exception.YyghException;
 import com.lei.yygh.common.result.Result;
 import com.lei.yygh.common.result.ResultCodeEnum;
 import com.lei.yygh.common.utils.MD5;
@@ -11,6 +13,7 @@ import com.lei.yygh.hosp.service.HospitalSetService;
 import com.lei.yygh.model.hosp.Hospital;
 import com.lei.yygh.model.hosp.HospitalSet;
 import com.lei.yygh.vo.hosp.HospitalSetQueryVo;
+import com.lei.yygh.vo.order.SignInfoVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -112,6 +115,21 @@ public class HospitalSetServiceImpl extends ServiceImpl<HospitalSetMapper, Hospi
         queryWrapper.eq(HospitalSet::getHoscode,hoscode1);
         HospitalSet hospitalSet = baseMapper.selectOne(queryWrapper);
         return hospitalSet.getSignKey();
+    }
+
+    //获取签名信息
+    @Override
+    public SignInfoVo getSignInfoVo(String hoscode) {
+        QueryWrapper<HospitalSet> wrapper = new QueryWrapper<>();
+        wrapper.eq("hoscode",hoscode);
+        HospitalSet hospitalSet = baseMapper.selectOne(wrapper);
+        if(null == hospitalSet) {
+            throw new YyghException(ResultCodeEnum.HOSPITAL_OPEN);
+        }
+        SignInfoVo signInfoVo = new SignInfoVo();
+        signInfoVo.setApiUrl(hospitalSet.getApiUrl());
+        signInfoVo.setSignKey(hospitalSet.getSignKey());
+        return signInfoVo;
     }
 
 

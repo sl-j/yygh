@@ -1,6 +1,8 @@
 package com.lei.yygh.hosp.service;
 
 import com.lei.yygh.common.result.Result;
+import com.lei.yygh.model.hosp.Schedule;
+import com.lei.yygh.vo.hosp.ScheduleOrderVo;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Map;
@@ -17,4 +19,8 @@ public interface ScheduleService {
     Result getScheduleDetail(String hoscode, String depcode, String workDate);
 
     Map<String,Object> getBookingScheduleRule(Integer page, Integer limit, String hoscode, String depcode);
+
+    Schedule getScheduleById(String scheduleId);
+
+    ScheduleOrderVo getScheduleOrderVo(String scheduleId);
 }

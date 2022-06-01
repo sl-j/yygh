@@ -4,6 +4,7 @@ import com.lei.yygh.common.result.Result;
 import com.lei.yygh.model.hosp.Hospital;
 import com.lei.yygh.vo.hosp.HospitalQueryVo;
 import com.lei.yygh.vo.hosp.HospitalSetQueryVo;
+import com.lei.yygh.vo.order.SignInfoVo;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;

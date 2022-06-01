@@ -65,4 +65,11 @@ public class PatientController {
         return Result.ok();
     }
 
+    //根据就诊人id获取就诊人信息
+    @GetMapping("inner/get/{id}")
+    public Patient getPatientOrder(@PathVariable Long id){
+        Patient patient = patientService.getPatientById(id);
+        return patient;
+    }
+
 }

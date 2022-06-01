@@ -5,8 +5,10 @@ import com.lei.yygh.common.result.Result;
 import com.lei.yygh.hosp.service.HospitalSetService;
 import com.lei.yygh.model.hosp.HospitalSet;
 import com.lei.yygh.vo.hosp.HospitalSetQueryVo;
+import com.lei.yygh.vo.order.SignInfoVo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -106,5 +108,13 @@ public class HospitalSetController {
     @PutMapping("sendKey/{id}")
     public Result sendKey(@PathVariable Long id){
         return hospitalSetService.sendKey(id);
+    }
+
+    @ApiOperation(value = "获取医院签名信息")
+    @GetMapping("inner/getSignInfoVo/{hoscode}")
+    public SignInfoVo getSignInfoVo(
+            @ApiParam(name = "hoscode", value = "医院code", required = true)
+            @PathVariable("hoscode") String hoscode) {
+        return hospitalSetService.getSignInfoVo(hoscode);
     }
 }

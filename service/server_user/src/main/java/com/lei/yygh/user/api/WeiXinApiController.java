@@ -7,6 +7,7 @@ import com.lei.yygh.model.user.UserInfo;
 import com.lei.yygh.user.service.UserInfoService;
 import com.lei.yygh.user.utils.ConstantWxPropertiesUtils;
 import com.lei.yygh.user.utils.HttpClientUtils;
+import com.sun.deploy.net.URLEncoder;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.ibatis.annotations.Mapper;
@@ -18,7 +19,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -34,30 +34,20 @@ public class WeiXinApiController {
     //返回生成二维码需要的参数
     @ApiOperation(value = "生成微信登录二维码")
     @GetMapping("getLoginParam")
-    public String getLoginParam(){
-        String baseUrl = "https://open.weixin.qq.com/connect/qrconnect" +
-                "?appid=%s" +
-                "&redirect_uri=%s" +
-                "&response_type=code" +
-                "&scope=snsapi_login" +
-                "&state=%s" +
-                "#wechat_redirect";
-        //回调地址
-        String wxOpenRedirectUrl = ConstantWxPropertiesUtils.WX_OPEN_REDIRECT_URL;
+    public Result getLoginParam(){
         try {
-            wxOpenRedirectUrl =URLEncoder.encode(wxOpenRedirectUrl,"utf-8");
+            Map<String, Object> map = new HashMap<>();
+            map.put("appid", ConstantWxPropertiesUtils.WX_OPEN_APP_ID);
+            map.put("scope","snsapi_login");
+            String wxOpenRedirectUrl = ConstantWxPropertiesUtils.WX_OPEN_REDIRECT_URL;
+            wxOpenRedirectUrl = URLEncoder.encode(wxOpenRedirectUrl, "utf-8");
+            map.put("redirect_uri",wxOpenRedirectUrl);
+            map.put("state",System.currentTimeMillis()+"");
+            return Result.ok(map);
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
+            return null;
         }
-        //传递参数
-        String wxUrl = String.format(
-                baseUrl,
-                ConstantWxPropertiesUtils.WX_OPEN_APP_ID,
-                wxOpenRedirectUrl,
-                "wxatguigu"
-        );
-        //重定向
-        return "redirect:" + wxUrl;
     }
 
     //微信回调方法
@@ -134,11 +124,11 @@ public class WeiXinApiController {
             String token = JwtHelper.createToken(userInfoExist.getId(), name);
             map.put("token", token);
             //跳转到前端页面
-            return "redirect:http://blog.xiaoshit.com/";
+            return "redirect:" + ConstantWxPropertiesUtils.YYGH_BASE_URL + "/weixin/callback?token="+map.get("token")+ "&openid="+map.get("openid")+"&name="+ URLEncoder.encode(map.get("name"),"utf-8");
         } catch (Exception e) {
             e.printStackTrace();
         }
 
-        return "";
+        return null;
     }
 }

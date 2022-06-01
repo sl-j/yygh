@@ -20,6 +20,7 @@ import com.lei.yygh.model.hosp.Schedule;
 import com.lei.yygh.vo.hosp.DepartmentQueryVo;
 import com.lei.yygh.vo.hosp.HospitalQueryVo;
 import com.lei.yygh.vo.hosp.HospitalSetQueryVo;
+import com.lei.yygh.vo.order.SignInfoVo;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -193,6 +194,8 @@ public class HospitalServiceImpl implements HospitalService {
     public Hospital getByHoscode(String hoscode) {
         return hospitalRepository.getHospitalByHoscode(hoscode);
     }
+
+
 
     //将遍历的每一个医院的医院等级进行映射  dict_code是mysql的数据字典表中的dict_code,value是mongo中的hostype
     private Hospital setHospitalHosType(Hospital hospital) {

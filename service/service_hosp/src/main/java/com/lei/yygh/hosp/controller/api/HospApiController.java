@@ -6,7 +6,10 @@ import com.lei.yygh.hosp.service.DepartmentService;
 import com.lei.yygh.hosp.service.HospitalService;
 import com.lei.yygh.hosp.service.ScheduleService;
 import com.lei.yygh.model.hosp.Hospital;
+import com.lei.yygh.model.hosp.Schedule;
 import com.lei.yygh.vo.hosp.HospitalQueryVo;
+import com.lei.yygh.vo.hosp.ScheduleOrderVo;
+import com.lei.yygh.vo.order.SignInfoVo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -86,6 +89,21 @@ public class HospApiController {
             @ApiParam(name = "workDate", value = "排班日期", required = true)
             @PathVariable String workDate) {
         return Result.ok(scheduleService.getScheduleDetail(hoscode, depcode, workDate));
+    }
+
+    @ApiOperation(value = "根据排班id获取排班信息")
+    @GetMapping("getSchedule/{scheduleId}")
+    public Result getSchedule(@PathVariable String scheduleId){
+        Schedule schedule = scheduleService.getScheduleById(scheduleId);
+        return Result.ok(schedule);
+    }
+
+    @ApiOperation(value = "根据排班id获取预约下单数据")
+    @GetMapping("inner/getScheduleOrderVo/{scheduleId}")
+    public ScheduleOrderVo getScheduleOrderVo(
+            @ApiParam(name = "scheduleId", value = "排班id", required = true)
+            @PathVariable("scheduleId") String scheduleId) {
+        return scheduleService.getScheduleOrderVo(scheduleId);
     }
 
 }
