@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.lei.yygh.common.result.Result;
 import com.lei.yygh.hosp.service.DepartmentService;
 import com.lei.yygh.hosp.service.HospitalService;
+import com.lei.yygh.hosp.service.HospitalSetService;
 import com.lei.yygh.hosp.service.ScheduleService;
 import com.lei.yygh.model.hosp.Hospital;
 import com.lei.yygh.model.hosp.Schedule;
@@ -36,6 +37,9 @@ public class HospApiController {
 
     @Autowired
     private ScheduleService scheduleService;
+
+    @Autowired
+    private HospitalSetService hospitalSetService;
 
     @ApiOperation(value = "查询医院列表")
     @GetMapping("findHospList/{page}/{limit}")
@@ -104,6 +108,13 @@ public class HospApiController {
             @ApiParam(name = "scheduleId", value = "排班id", required = true)
             @PathVariable("scheduleId") String scheduleId) {
         return scheduleService.getScheduleOrderVo(scheduleId);
+    }
+
+    @ApiOperation(value = "获取医院签名信息")
+    @GetMapping("inner/getSignInfoVo/{hoscode}")
+    public SignInfoVo getSignInfoVo(
+            @PathVariable("hoscode") String hoscode){
+        return hospitalSetService.getSignInfoVo(hoscode);
     }
 
 }

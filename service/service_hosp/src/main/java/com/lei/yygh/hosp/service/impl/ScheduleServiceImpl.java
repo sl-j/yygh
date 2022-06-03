@@ -335,7 +335,7 @@ public class ScheduleServiceImpl extends ServiceImpl<ScheduleMapper,Schedule> im
     public ScheduleOrderVo getScheduleOrderVo(String scheduleId) {
         ScheduleOrderVo scheduleOrderVo = new ScheduleOrderVo();
         //获取排班信息
-        Schedule schedule = baseMapper.selectById(scheduleId);
+        Schedule schedule = this.getScheduleById(scheduleId);
         if(schedule == null){
             throw new YyghException(ResultCodeEnum.PARAM_ERROR);
         }
@@ -378,6 +378,13 @@ public class ScheduleServiceImpl extends ServiceImpl<ScheduleMapper,Schedule> im
         DateTime stopTime = this.getDateTime(new Date(), bookingRule.getStopTime());
         scheduleOrderVo.setStartTime(stopTime.toDate());
         return scheduleOrderVo;
+    }
+
+    //更新排班信息
+    @Override
+    public void update(Schedule schedule) {
+        schedule.setUpdateTime(new Date());
+        scheduleRepository.save(schedule);
     }
 
     //获取可预约日期分页数据

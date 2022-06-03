@@ -23,4 +23,7 @@ public interface ScheduleService {
     Schedule getScheduleById(String scheduleId);
 
     ScheduleOrderVo getScheduleOrderVo(String scheduleId);
+
+    //更新排班数据
+    void update(Schedule schedule);
 }

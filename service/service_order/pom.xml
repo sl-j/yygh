@@ -12,22 +12,24 @@
     <artifactId>service_order</artifactId>
 
     <dependencies>
-        <dependency>
-            <groupId>com.lei</groupId>
-            <artifactId>service_client</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
-        </dependency>
+
         <dependency>
             <groupId>com.lei</groupId>
             <artifactId>service_user_client</artifactId>
             <version>0.0.1-SNAPSHOT</version>
-            <scope>compile</scope>
+
         </dependency>
         <dependency>
             <groupId>com.lei</groupId>
             <artifactId>service_hosp_client</artifactId>
             <version>0.0.1-SNAPSHOT</version>
-            <scope>compile</scope>
+
+        </dependency>
+
+        <dependency>
+            <groupId>com.lei</groupId>
+            <artifactId>rabbit_util</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
         </dependency>
     </dependencies>
 

@@ -45,7 +45,7 @@ public class HospitalServiceImpl implements HospitalService {
         String reserveTime = (String)paramMap.get("reserveTime");
         String amount = (String)paramMap.get("amount");
 
-        Schedule schedule = this.getSchedule(hosScheduleId);
+        Schedule schedule = this.getSchedule("1l");
         if(null == schedule) {
             throw new YyghException(ResultCodeEnum.DATA_ERROR);
         }
@@ -71,7 +71,7 @@ public class HospitalServiceImpl implements HospitalService {
             //记录预约记录
             OrderInfo orderInfo = new OrderInfo();
             orderInfo.setPatientId(patientId);
-            orderInfo.setScheduleId(Long.parseLong(hosScheduleId));
+            orderInfo.setScheduleId(1l);
             int number = schedule.getReservedNumber().intValue() - schedule.getAvailableNumber().intValue();
             orderInfo.setNumber(number);
             orderInfo.setAmount(new BigDecimal(amount));

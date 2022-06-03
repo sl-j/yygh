@@ -1,10 +1,8 @@
 package com.lei.yygh.order.controller.api;
 
 import com.lei.yygh.common.result.Result;
-import com.lei.yygh.hosp.client.HospitalFeignClient;
-import com.lei.yygh.model.user.Patient;
 import com.lei.yygh.order.service.OrderService;
-import com.lei.yygh.user.client.PatientFeignClient;
+
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;

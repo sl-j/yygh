@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
-@FeignClient("service-cmn")
+@FeignClient(value = "service-cmn")
 @Component
 public interface DictFeignClient {
 
