@@ -1,0 +1,41 @@
+server:
+  port: 8206
+
+
+spring:
+  application:
+    name: service-order
+
+  profiles:
+    active: dev
+
+    #mysql
+  datasource:
+    url: jdbc:mysql://localhost:3306/yygh_order?characterEncoding=utf-8&serverTimezone=Asia/Shanghai
+    username: root
+    password: 437101.sl
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+    #返回json的全局时间格式
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
+    #nacos地址
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 127.0.0.1:8848
+
+  data:
+    mongodb:
+      uri: mongodb://121.43.154.153:27017/yygh_hosp
+
+  rabbitmq:
+    host: 121.43.154.153
+    port: 5672
+    username: guest
+    password: guest
+
+  redis:
+    host: 121.43.154.153
+    password: 437101.Sl
