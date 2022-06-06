@@ -37,7 +37,16 @@ spring:
 #  #mongodb地址
   data:
     mongodb:
-      uri: mongodb://121.43.154.153:27017/yygh_hosp
+      host: 121.43.154.153
+      port: 27017
+      database: yygh_hosp
+      authentication-database: admin
+      username: root
+      password: 123456.sl
+#      uri: mongodb://121.43.154.153:27017/yygh_hosp
+#      username: root
+#      password: 123456.sl
+#      authentication-database: admin
 
 #mybatis-plus
 mybatis-plus:
