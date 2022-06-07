@@ -49,4 +49,6 @@ public class WXController {
         }
         return Result.ok().message("支付中");
     }
+
+
 }

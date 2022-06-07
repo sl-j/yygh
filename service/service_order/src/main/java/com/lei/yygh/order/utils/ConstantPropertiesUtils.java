@@ -16,8 +16,8 @@ public class ConstantPropertiesUtils implements InitializingBean {
     @Value("${weixin.partnerkey}")
     private String partnerkey;
 
-//    @Value("${weixin.cert}")
-//    private String cert;
+    @Value("${weixin.cert}")
+    private String cert;
 
     public static String APPID;
     public static String PARTNER;
@@ -29,7 +29,7 @@ public class ConstantPropertiesUtils implements InitializingBean {
         APPID = appid;
         PARTNER = partner;
         PARTNERKEY = partnerkey;
-//        CERT = cert;
+        CERT = cert;
     }
 }
 
